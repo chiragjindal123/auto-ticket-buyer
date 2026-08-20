@@ -1,38 +1,26 @@
 [
   {
     "anchor": "2026-10-10(六)",
-    "click_offset_x": 670.4750061035156,
-    "click_offset_y": 12.0,
+    "click_offset_x": 674.4750061035156,
+    "click_offset_y": 17.0,
     "repeat": 1
   },
   {
     "anchor": "314",
-    "click_offset_x": 433.79998779296875,
-    "click_offset_y": 17.75,
+    "click_offset_x": 467.79998779296875,
+    "click_offset_y": 6.75,
     "repeat": 1
   },
   {
     "anchor": "314",
-    "click_offset_x": 477.79998779296875,
-    "click_offset_y": 75.71249389648438,
-    "repeat": 2
+    "click_offset_x": 482.79998779296875,
+    "click_offset_y": 76.51248168945312,
+    "repeat": 4
   },
   {
     "anchor": "314",
-    "click_offset_x": 471.79998779296875,
-    "click_offset_y": 55.712493896484375,
-    "repeat": 2
-  },
-  {
-    "anchor": "314",
-    "click_offset_x": 443.79998779296875,
-    "click_offset_y": 84.71249389648438,
-    "repeat": 2
-  },
-  {
-    "anchor": "314",
-    "click_offset_x": 429.79998779296875,
-    "click_offset_y": 325.7124938964844,
+    "click_offset_x": 415.79998779296875,
+    "click_offset_y": 322.5124816894531,
     "repeat": 1
   }
 ]
