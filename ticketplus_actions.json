@@ -1,0 +1,38 @@
+[
+  {
+    "anchor": "2026-10-10(六)",
+    "click_offset_x": 670.4750061035156,
+    "click_offset_y": 12.0,
+    "repeat": 1
+  },
+  {
+    "anchor": "314",
+    "click_offset_x": 433.79998779296875,
+    "click_offset_y": 17.75,
+    "repeat": 1
+  },
+  {
+    "anchor": "314",
+    "click_offset_x": 477.79998779296875,
+    "click_offset_y": 75.71249389648438,
+    "repeat": 2
+  },
+  {
+    "anchor": "314",
+    "click_offset_x": 471.79998779296875,
+    "click_offset_y": 55.712493896484375,
+    "repeat": 2
+  },
+  {
+    "anchor": "314",
+    "click_offset_x": 443.79998779296875,
+    "click_offset_y": 84.71249389648438,
+    "repeat": 2
+  },
+  {
+    "anchor": "314",
+    "click_offset_x": 429.79998779296875,
+    "click_offset_y": 325.7124938964844,
+    "repeat": 1
+  }
+]
