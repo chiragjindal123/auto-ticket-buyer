@@ -1,0 +1,35 @@
+[
+  {
+    "anchor": "（10/09場次",
+    "click_offset_x": 982.5999984741211,
+    "click_offset_y": 28.600006103515625,
+    "repeat": 1
+  },
+  {
+    "anchor": "505",
+    "click_offset_x": 332.79998779296875,
+    "click_offset_y": 7.79998779296875,
+    "repeat": 1
+  },
+  {
+    "anchor": "505",
+    "click_offset_x": 474.79998779296875,
+    "click_offset_y": 75.5625,
+    "repeat": 2
+  },
+  {
+    "anchor": "514",
+    "click_offset_x": -376.20001220703125,
+    "click_offset_y": 181.5,
+    "repeat": 1
+  },
+  {
+    "type": "membership_code"
+  },
+  {
+    "anchor": "514",
+    "click_offset_x": 397.79998779296875,
+    "click_offset_y": 232.5,
+    "repeat": 1
+  }
+]

@@ -12,7 +12,7 @@ RECORD:
     5. The script captures that click automatically.
     6. Enter how many times that click should be repeated.
     7. The action is saved.
-    8. Repeat for the next anchor.
+    8. Repeat for the next anchor, or add a membership-code step.
 
 RUN:
   1. Open the same persistent browser profile.
@@ -53,10 +53,10 @@ URL = (
 # Taiwan local time.
 # Example:
 # START_TIME = "2026-09-01 12:00:00"
-START_TIME = "2026-09-04 10:00:00"
+START_TIME = "2026-08-20 10:00:00"
 
-ACTIONS_FILE = Path("ticketplus_actions.json")
-PROFILE_DIR = Path("ticketplus_profile")
+ACTIONS_FILE = Path("ticketplus_config_membership.json")
+PROFILE_DIR = Path("ticketplus_profile_membership")
 
 CHECK_INTERVAL = 0.25
 REFRESH_INTERVAL = 3.0
@@ -69,6 +69,32 @@ KEEP_BROWSER_OPEN = True
 STOP_TEXTS = [
 
 ]
+
+# ============================================================
+# MEMBERSHIP CODE
+# ============================================================
+#
+# Put your membership code here. Leave it empty to disable the
+# membership-code step.
+#
+MEMBERSHIP_CODE = "7ZP7JC"
+
+# Possible labels / attributes used by a membership-code field.
+# Add the exact wording from TicketPlus here if needed.
+MEMBERSHIP_FIELD_HINTS = [
+    "會員碼",
+    "會員代碼",
+    "會員編號",
+    "會員序號",
+    "Membership Code",
+    "Membership",
+]
+
+MEMBERSHIP_WAIT_TIMEOUT = 0.4
+
+# Set True when the membership field appears before your click sequence.
+# For a field that appears later, put a membership step in ACTIONS instead.
+RUN_MEMBERSHIP_AT_START = False
 
 
 # ============================================================
@@ -145,6 +171,167 @@ def stop_condition_visible(page):
             return text
 
     return None
+
+
+# ============================================================
+# MEMBERSHIP CODE HELPER
+# ============================================================
+
+def _visible_input_candidates(page):
+    """Return visible text-like input fields on the current page."""
+    candidates = []
+
+    selectors = [
+        'input[type="text"]',
+        'input:not([type])',
+        'input[type="search"]',
+        'input[type="tel"]',
+        'input[type="number"]',
+    ]
+
+    for selector in selectors:
+        try:
+            locator = page.locator(selector)
+            count = locator.count()
+
+            for i in range(count):
+                item = locator.nth(i)
+                try:
+                    if item.is_visible():
+                        candidates.append(item)
+                except Exception:
+                    pass
+        except Exception:
+            pass
+
+    return candidates
+
+
+def find_membership_input(page):
+    """
+    Find a membership-code input using labels, placeholders, aria labels,
+    names/ids, then fall back to nearby visible inputs.
+    """
+
+    # 1. Accessible label.
+    for hint in MEMBERSHIP_FIELD_HINTS:
+        try:
+            locator = page.get_by_label(hint, exact=False)
+            if locator.count() > 0:
+                for i in range(min(locator.count(), 10)):
+                    item = locator.nth(i)
+                    if item.is_visible():
+                        return item
+        except Exception:
+            pass
+
+    # 2. Input attributes.
+    attr_parts = []
+    for hint in MEMBERSHIP_FIELD_HINTS:
+        h = hint.lower()
+        # Keep this intentionally broad for Chinese/English field names.
+        attr_parts.extend([
+            f'input[placeholder*="{hint}"]',
+            f'input[aria-label*="{hint}"]',
+            f'input[name*="{hint}"]',
+            f'input[id*="{hint}"]',
+        ])
+
+    for selector in attr_parts:
+        try:
+            locator = page.locator(selector)
+            if locator.count() > 0:
+                for i in range(min(locator.count(), 10)):
+                    item = locator.nth(i)
+                    if item.is_visible():
+                        return item
+        except Exception:
+            pass
+
+    # 3. Case-insensitive-ish attribute fallback using JS.
+    try:
+        inputs = page.locator("input")
+        for i in range(inputs.count()):
+            item = inputs.nth(i)
+            if not item.is_visible():
+                continue
+
+            values = page.evaluate(
+                """el => [
+                    el.getAttribute('placeholder') || '',
+                    el.getAttribute('aria-label') || '',
+                    el.getAttribute('name') || '',
+                    el.getAttribute('id') || '',
+                    el.getAttribute('autocomplete') || ''
+                ]""",
+                item,
+            )
+
+            combined = " ".join(values).lower()
+
+            if any(
+                token.lower() in combined
+                for token in [
+                    "會員",
+                    "membership",
+                    "member",
+                ]
+            ):
+                return item
+    except Exception:
+        pass
+
+    return None
+
+
+def paste_membership_code(page, code_value):
+    """
+    Wait for a membership-code field, scroll to it, focus it and enter
+    the configured value.
+
+    The value is entered directly into the field rather than exposing it
+    in the page as an action string.
+    """
+
+    if not code_value:
+        print("Membership code is empty; skipping membership step.")
+        return True
+
+    print()
+    print("========================================")
+    print(" MEMBERSHIP CODE")
+    print("========================================")
+    print("Waiting for membership-code field...")
+
+    started = time.monotonic()
+
+    while time.monotonic() - started < MEMBERSHIP_WAIT_TIMEOUT:
+        stop_text = stop_condition_visible(page)
+        if stop_text:
+            print(f"STOP TEXT DETECTED: {stop_text!r}")
+            return False
+
+        field = find_membership_input(page)
+
+        if field is not None:
+            try:
+                field.scroll_into_view_if_needed(timeout=5000)
+                field.click(timeout=5000)
+
+                # Clear any old value, then insert the configured code.
+                field.fill("")
+                field.fill(code_value)
+
+                print("Membership code entered.")
+                return True
+
+            except Exception as exc:
+                print(f"Membership field interaction failed: {exc}")
+
+        time.sleep(CHECK_INTERVAL)
+
+    print("Timed out waiting for membership-code field.")
+    return False
 
 
 # ============================================================
@@ -456,6 +643,13 @@ def record_mode():
         print(f"Saved {len(actions)} action(s)")
         print(f"File: {ACTIONS_FILE.resolve()}")
         print("========================================")
+        print()
+        print("For a membership-code step, add this object manually")
+        print("inside ticketplus_actions_membership.json at the desired point:")
+        print('  {"type": "membership_code"}')
+        print()
+        print("Then set MEMBERSHIP_CODE in this script.")
+        print("========================================")
 
         context.close()
 
@@ -573,12 +767,18 @@ def run_mode():
     print()
 
     for i, action in enumerate(actions, 1):
-        print(
-            f"{i}. anchor={action['anchor']!r}, "
-            f"offset=({action['click_offset_x']}, "
-            f"{action['click_offset_y']}), "
-            f"repeat={action['repeat']}"
-        )
+
+        if action.get("type") == "membership_code":
+            print(
+                f"{i}. type=membership_code"
+            )
+        else:
+            print(
+                f"{i}. anchor={action.get('anchor')!r}, "
+                f"offset=({action.get('click_offset_x')}, "
+                f"{action.get('click_offset_y')}), "
+                f"repeat={action.get('repeat', 1)}"
+            )
 
     with sync_playwright() as p:
         context = p.chromium.launch_persistent_context(
@@ -606,7 +806,33 @@ def run_mode():
 
         wait_until_start_time()
 
+        if RUN_MEMBERSHIP_AT_START:
+            if not paste_membership_code(page, MEMBERSHIP_CODE):
+                print("Membership step failed. Leaving browser open.")
+                if KEEP_BROWSER_OPEN:
+                    input("Press ENTER to close the browser...")
+                context.close()
+                return
+
+            time.sleep(0.5)
+
         for index, action in enumerate(actions, 1):
+
+            # Explicit membership-code step.
+            if action.get("type") == "membership_code":
+                print()
+                print("========================================")
+                print(f"ACTION {index}/{len(actions)}")
+                print("Type: MEMBERSHIP CODE")
+                print("========================================")
+
+                if not paste_membership_code(page, MEMBERSHIP_CODE):
+                    print("Membership step failed. Leaving browser open.")
+                    break
+
+                time.sleep(0.5)
+                continue
+
             anchor = action["anchor"]
             offset_x = float(action["click_offset_x"])
             offset_y = float(action["click_offset_y"])
