@@ -1,26 +1,26 @@
 [
   {
-    "anchor": "2026-10-10(六)",
-    "click_offset_x": 674.4750061035156,
-    "click_offset_y": 17.0,
+    "anchor": "（10/09場次）",
+    "click_offset_x": 990.5999984741211,
+    "click_offset_y": 31.600006103515625,
     "repeat": 1
   },
   {
-    "anchor": "314",
-    "click_offset_x": 467.79998779296875,
-    "click_offset_y": 6.75,
+    "anchor": "505",
+    "click_offset_x": 338.79998779296875,
+    "click_offset_y": 3.79998779296875,
     "repeat": 1
   },
   {
-    "anchor": "314",
-    "click_offset_x": 482.79998779296875,
-    "click_offset_y": 76.51248168945312,
-    "repeat": 4
+    "anchor": "505",
+    "click_offset_x": 475.79998779296875,
+    "click_offset_y": 77.5625,
+    "repeat": 2
   },
   {
-    "anchor": "314",
-    "click_offset_x": 415.79998779296875,
-    "click_offset_y": 322.5124816894531,
+    "anchor": "514",
+    "click_offset_x": 412.79998779296875,
+    "click_offset_y": 238.5,
     "repeat": 1
   }
 ]

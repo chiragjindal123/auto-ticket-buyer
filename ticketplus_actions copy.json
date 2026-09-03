@@ -36,3 +36,37 @@
     "repeat": 1
   }
 ]
+
+
+
+
+
+
+
+
+[
+  {
+    "anchor": "（10/09場次）",
+    "click_offset_x": 990.5999984741211,
+    "click_offset_y": 31.600006103515625,
+    "repeat": 1
+  },
+  {
+    "anchor": "505",
+    "click_offset_x": 338.79998779296875,
+    "click_offset_y": 3.79998779296875,
+    "repeat": 1
+  },
+  {
+    "anchor": "505",
+    "click_offset_x": 475.79998779296875,
+    "click_offset_y": 77.5625,
+    "repeat": 2
+  },
+  {
+    "anchor": "514",
+    "click_offset_x": 412.79998779296875,
+    "click_offset_y": 238.5,
+    "repeat": 1
+  }
+]
