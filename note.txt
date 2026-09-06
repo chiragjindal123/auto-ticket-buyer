@@ -24,3 +24,12 @@
     "repeat": 1
   }
 ]
+
+
+"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+  --remote-debugging-port=9222 \
+  --user-data-dir="$HOME/ticketplus-chrome-profile"
+
+
+  cd /Users/chirag/ticket/auto-ticket-buyer
+/Users/chirag/ticket/.venv/bin/python ticketplus_bot_2.py run
