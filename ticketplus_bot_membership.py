@@ -53,7 +53,7 @@ URL = (
 # Taiwan local time.
 # Example:
 # START_TIME = "2026-09-01 12:00:00"
-START_TIME = "2026-08-20 10:00:00"
+START_TIME = "2026-09-04 10:00:00"
 
 ACTIONS_FILE = Path("ticketplus_config_membership.json")
 PROFILE_DIR = Path("ticketplus_profile_membership")

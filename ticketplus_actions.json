@@ -6,21 +6,21 @@
     "repeat": 1
   },
   {
-    "anchor": "505",
-    "click_offset_x": 338.79998779296875,
-    "click_offset_y": 3.79998779296875,
+    "anchor": "314",
+    "click_offset_x": 433.79998779296875,
+    "click_offset_y": 17.75,
     "repeat": 1
   },
   {
-    "anchor": "505",
-    "click_offset_x": 475.79998779296875,
-    "click_offset_y": 77.5625,
+    "anchor": "314",
+    "click_offset_x": 477.79998779296875,
+    "click_offset_y": 75.71249389648438,
     "repeat": 2
   },
   {
-    "anchor": "514",
-    "click_offset_x": 412.79998779296875,
-    "click_offset_y": 238.5,
+    "anchor": "314",
+    "click_offset_x": 429.79998779296875,
+    "click_offset_y": 325.7124938964844,
     "repeat": 1
   }
 ]
