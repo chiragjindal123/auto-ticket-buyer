@@ -53,13 +53,13 @@ URL = (
 # Taiwan local time.
 # Example:
 # START_TIME = "2026-09-01 12:00:00"
-START_TIME = "2026-09-06 21:22:30"
+START_TIME = "2026-09-07 10:00:00"
 
 ACTIONS_FILE = Path("ticketplus_actions_2v.json")
 PROFILE_DIR = Path("ticketplus_profile_2v")
 
-CHECK_INTERVAL = 0.25
-REFRESH_INTERVAL = 3.0
+CHECK_INTERVAL = 0.10
+REFRESH_INTERVAL = 1.5
 TARGET_TIMEOUT = 300.0
 
 KEEP_BROWSER_OPEN = True
@@ -253,7 +253,7 @@ def find_and_scroll(page, text, timeout=TARGET_TIMEOUT):
         if locator is not None:
             try:
                 locator.scroll_into_view_if_needed(timeout=5000)
-                time.sleep(0.15)
+                time.sleep(0.05)
 
                 # Re-check visibility after scrolling.
                 if locator.is_visible():
@@ -551,7 +551,7 @@ def replay_click(page, locator, offset_x, offset_y, repeat):
     for i in range(repeat):
         try:
             show_click_marker(x, y)
-            time.sleep(0.12)
+            time.sleep(0.03)
             page.mouse.click(x, y)
             print(f"  click {i + 1}/{repeat}")
         except Exception as exc:
@@ -559,7 +559,7 @@ def replay_click(page, locator, offset_x, offset_y, repeat):
             return False
 
         # Tiny delay between repeated clicks.
-        time.sleep(0.08)
+        time.sleep(0.03)
 
     return True
 
@@ -647,7 +647,7 @@ def run_mode():
                 break
 
             # Let the page react before looking for the next anchor.
-            time.sleep(0.5)
+            time.sleep(0.2)
 
         else:
             print()
